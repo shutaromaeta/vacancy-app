@@ -2,22 +2,14 @@
 fetch("https://script.google.com/macros/s/AKfycbysLu-UEDWHN-p3lKtfjsHEimUX_YFa1alRjUomjqGcSaO9L33VFUK2CZHCXjcwSse2/exec")
 .then(res => res.json())
 .then(data => {
-  const rows = data.slice(1);
   const list = document.getElementById("list");
 
-  rows.forEach(row => {
-    const status = row[2]?.trim();
-
-    if(status && (status.includes("空室") || status.includes("退居"))){
-      list.innerHTML += `
-        <div class="card">
-          <div class="title">${row[1]}号室</div>
-          ${row[0]}<br>
-          ${row[3] || ""}<br>
-          ${row[4] || ""}
-        </div>
-      `;
-    }
+  data.forEach(row => {
+    list.innerHTML += `
+      <div class="card">
+        ${row.join(" / ")}
+      </div>
+    `;
   });
 });
 </script>
