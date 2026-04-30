@@ -15,7 +15,13 @@ body {
 .header {
   background: #0d47a1;
   color: #fff;
-  padding: 14px;
+  padding: 12px;
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .header-title {
@@ -24,7 +30,7 @@ body {
 }
 
 .header-sub {
-  font-size: 13px;
+  font-size: 12px;
   opacity: 0.9;
 }
 
@@ -73,9 +79,15 @@ body {
 
 <body>
 
+<!-- ヘッダー -->
 <div class="header">
-  <div class="header-title">紅萌会グループ 空室情報</div>
-  <div class="header-sub">現在ご案内可能なお部屋</div>
+  <div class="header-inner">
+    <img src="https://raw.githubusercontent.com/shutaromaeta/vacancy-app/main/logomark%20(1).png" style="height:26px;">
+    <div>
+      <div class="header-title">紅萌会グループ 空室情報</div>
+      <div class="header-sub">現在ご案内可能なお部屋</div>
+    </div>
+  </div>
 </div>
 
 <div id="list"></div>
