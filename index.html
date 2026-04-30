@@ -1,14 +1,23 @@
 <script>
-fetch("https://api.allorigins.win/raw?url=https://docs.google.com/spreadsheets/d/e/2PACX-1vT_YFkoH2zN5DAqpztrEkU6OBfKksY5M2GV6RKTuSsS-KeqUzhyW1XnFIMcTdVqQO9YnlE0pz4s9BxU/pub?output=csv")
-.then(res => res.text())
+fetch("https://script.google.com/macros/s/AKfycbysLu-UEDWHN-p3lKtfjsHEimUX_YFa1alRjUomjqGcSaO9L33VFUK2CZHCXjcwSse2/exec")
+.then(res => res.json())
 .then(data => {
+  const rows = data.slice(1);
+  const list = document.getElementById("list");
 
-  // まずデータをそのまま表示（ここ重要）
-  document.body.innerHTML += "<pre>" + data + "</pre>";
+  rows.forEach(row => {
+    const status = row[2]?.trim();
 
-})
-.catch(err => {
-  document.body.innerHTML += "<p>データ取得エラー</p>";
-  console.error(err);
+    if(status && (status.includes("空室") || status.includes("退去"))){
+      list.innerHTML += `
+        <div class="card">
+          <div class="title">${row[1]}号室</div>
+          ${row[0]}<br>
+          ${row[3] || ""}<br>
+          ${row[4] || ""}
+        </div>
+      `;
+    }
+  });
 });
 </script>
