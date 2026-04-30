@@ -28,28 +28,6 @@ body {
   opacity: 0.9;
 }
 
-/* フィルター */
-.filter {
-  padding: 10px;
-  background: #fff;
-  display: flex;
-  gap: 6px;
-  overflow-x: auto;
-}
-
-.filter button {
-  border: none;
-  padding: 6px 10px;
-  border-radius: 20px;
-  background: #e0e0e0;
-  font-size: 12px;
-}
-
-.filter button.active {
-  background: #0d47a1;
-  color: #fff;
-}
-
 /* 施設 */
 .facility-block {
   margin: 14px;
@@ -100,55 +78,27 @@ body {
   <div class="header-sub">現在ご案内可能なお部屋</div>
 </div>
 
-<div class="filter">
-  <button onclick="setFilter('')" class="active">すべて</button>
-  <button onclick="setFilter('認知OK')">認知OK</button>
-  <button onclick="setFilter('医療対応可')">医療</button>
-  <button onclick="setFilter('看取り可')">看取り</button>
-  <button onclick="setFilter('要介護5可')">重度</button>
-  <button onclick="setFilter('生活保護可')">生保</button>
-  <button onclick="setFilter('短期可')">短期</button>
-</div>
-
 <div id="list"></div>
 
 <script>
-let allData = [];
-let currentFilter = "";
+fetch("https://script.google.com/macros/s/AKfycbysLu-UEDWHN-p3lKtfjsHEimUX_YFa1alRjUomjqGcSaO9L33VFUK2CZHCXjcwSse2/exec")
+.then(res => res.json())
+.then(data => {
 
-// フィルター切替
-function setFilter(tag) {
-  currentFilter = tag;
-
-  document.querySelectorAll(".filter button").forEach(btn => {
-    btn.classList.remove("active");
-    if(btn.textContent.includes(tag) || (tag === "" && btn.textContent === "すべて")){
-      btn.classList.add("active");
-    }
-  });
-
-  render();
-}
-
-// 描画
-function render() {
+  const rows = data.slice(1);
   const list = document.getElementById("list");
-  list.innerHTML = "";
 
   const seen = new Set();
   const grouped = {};
 
-  allData.forEach(row => {
+  rows.forEach(row => {
     const facility = row[0];
     const room = row[1];
     const status = (row[2] || "").trim();
-    const tags = (row[5] || "").split(",");
 
     const key = facility + "_" + room;
 
     if(status.includes("空室") || status.includes("退居")){
-
-      if(currentFilter && !tags.includes(currentFilter)) return;
 
       if(seen.has(key)) return;
       seen.add(key);
@@ -188,14 +138,7 @@ function render() {
     html += `</div>`;
     list.innerHTML += html;
   });
-}
 
-// データ取得
-fetch("https://script.google.com/macros/s/AKfycbysLu-UEDWHN-p3lKtfjsHEimUX_YFa1alRjUomjqGcSaO9L33VFUK2CZHCXjcwSse2/exec")
-.then(res => res.json())
-.then(data => {
-  allData = data.slice(1);
-  render();
 });
 </script>
 
