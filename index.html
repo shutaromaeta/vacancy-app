@@ -2,26 +2,10 @@
 fetch("https://api.allorigins.win/raw?url=https://docs.google.com/spreadsheets/d/e/2PACX-1vT_YFkoH2zN5DAqpztrEkU6OBfKksY5M2GV6RKTuSsS-KeqUzhyW1XnFIMcTdVqQO9YnlE0pz4s9BxU/pub?output=csv")
 .then(res => res.text())
 .then(data => {
-  const rows = data.split(/\r?\n/).slice(1);
-  const list = document.getElementById("list");
 
-  rows.forEach(row => {
-    if(!row) return;
+  // まずデータをそのまま表示（ここ重要）
+  document.body.innerHTML += "<pre>" + data + "</pre>";
 
-    const cols = row.split(",");
-    const status = cols[2]?.trim();
-
-    if(status.includes("空室") || status.includes("退去")){
-      list.innerHTML += `
-        <div class="card">
-          <div class="title">${cols[1]}号室</div>
-          ${cols[0]}<br>
-          ${cols[3]}<br>
-          ${cols[4]}
-        </div>
-      `;
-    }
-  });
 })
 .catch(err => {
   document.body.innerHTML += "<p>データ取得エラー</p>";
