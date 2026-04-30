@@ -2,31 +2,24 @@
 fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vT_YFkoH2zN5DAqpztrEkU6OBfKksY5M2GV6RKTuSsS-KeqUzhyW1XnFIMcTdVqQO9YnlE0pz4s9BxU/pub?output=csv")
 .then(res => res.text())
 .then(data => {
-  console.log(data); // デバッグ用
-
-  const rows = data.split(/\r?\n/).slice(1); // ←ここ修正
+  const rows = data.split(/\r?\n/).slice(1);
   const list = document.getElementById("list");
 
   rows.forEach(row => {
-    if(!row) return; // 空行対策
+    if(!row) return;
 
     const cols = row.split(",");
-    const status = cols[2]?.trim(); // ←ここ修正
 
-    if(status === "空室" || status === "退去予定"){
-      list.innerHTML += `
-        <div class="card">
-          <div class="title">${cols[1]}号室</div>
-          ${cols[0]}<br>
-          ${cols[3]}<br>
-          ${cols[4]}
-        </div>
-      `;
-    }
+    // ★ 条件を外す（全部表示）
+    list.innerHTML += `
+      <div class="card">
+        <div class="title">${cols[1]}号室</div>
+        ${cols[0]}<br>
+        ステータス：${cols[2]}<br>
+        ${cols[3]}<br>
+        ${cols[4]}
+      </div>
+    `;
   });
-})
-.catch(err => {
-  document.body.innerHTML += "<p>データ取得エラー</p>";
-  console.error(err);
 });
 </script>
