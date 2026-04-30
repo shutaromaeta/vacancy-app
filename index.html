@@ -20,7 +20,7 @@ body { font-family: sans-serif; padding: 10px; }
 <div id="list"></div>
 
 <script>
-fetch("https://docs.google.com/spreadsheets/d/1B9Eu1FmWBbW_qR_Epf9u8ocdEuYOLKrDaiixLsOrTZE/edit?usp=sharing")
+fetch("https://docs.google.com/spreadsheets/d/1B9Eu1FmWBbW_qR_Epf9u8ocdEuYOLKrDaiixLsOrTZE/pub?output=csv")
 .then(res => res.text())
 .then(data => {
   const rows = data.split("\n").slice(1);
