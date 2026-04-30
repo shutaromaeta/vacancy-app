@@ -1,15 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>空室一覧</title>
+<style>
+body { font-family: sans-serif; padding: 10px; }
+.card {
+  border: 1px solid #ddd;
+  padding: 12px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+}
+.title { font-size: 18px; font-weight: bold; }
+</style>
+</head>
+
+<body>
+
+<h2>現在ご案内可能なお部屋</h2>
+<div id="list"></div>
+
 <script>
+console.log("JS動作確認"); // ←これ出るか確認
+
 fetch("https://script.google.com/macros/s/AKfycbysLu-UEDWHN-p3lKtfjsHEimUX_YFa1alRjUomjqGcSaO9L33VFUK2CZHCXjcwSse2/exec")
 .then(res => res.json())
 .then(data => {
+  console.log("データ取得成功", data);
+
+  const rows = data.slice(1);
   const list = document.getElementById("list");
 
-  data.forEach(row => {
-    list.innerHTML += `
-      <div class="card">
-        ${row.join(" / ")}
-      </div>
-    `;
+  rows.forEach(row => {
+    const status = row[2];
+
+    if(status && (status.includes("空室") || status.includes("退居"))){
+      list.innerHTML += `
+        <div class="card">
+          <div class="title">${row[1]}号室</div>
+          ${row[0]}<br>
+          ${row[3] || ""}<br>
+          ${row[4] || ""}
+        </div>
+      `;
+    }
   });
+})
+.catch(err => {
+  document.body.innerHTML += "<p>データ取得エラー</p>";
+  console.error(err);
 });
 </script>
+
+</body>
+</html>
