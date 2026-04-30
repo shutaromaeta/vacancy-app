@@ -8,7 +8,7 @@ fetch("https://script.google.com/macros/s/AKfycbysLu-UEDWHN-p3lKtfjsHEimUX_YFa1a
   rows.forEach(row => {
     const status = row[2]?.trim();
 
-    if(status && (status.includes("空室") || status.includes("退去"))){
+    if(status && (status.includes("空室") || status.includes("退居"))){
       list.innerHTML += `
         <div class="card">
           <div class="title">${row[1]}号室</div>
