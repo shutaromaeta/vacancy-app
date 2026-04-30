@@ -3,15 +3,43 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>空室一覧</title>
+
 <style>
-body { font-family: sans-serif; padding: 10px; }
+body {
+  font-family: sans-serif;
+  padding: 10px;
+  background: #f5f5f5;
+}
+
 .card {
   border: 1px solid #ddd;
-  padding: 12px;
-  margin-bottom: 10px;
-  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 12px;
+  border-radius: 12px;
+  background: #fff;
 }
-.title { font-size: 18px; font-weight: bold; }
+
+.title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+.facility {
+  font-size: 14px;
+  margin-bottom: 6px;
+  color: #555;
+}
+
+.ok {
+  font-size: 13px;
+  color: #333;
+}
+
+.ng {
+  font-size: 13px;
+  color: red;
+}
 </style>
 </head>
 
@@ -21,34 +49,38 @@ body { font-family: sans-serif; padding: 10px; }
 <div id="list"></div>
 
 <script>
-console.log("JS動作確認"); // ←これ出るか確認
-
 fetch("https://script.google.com/macros/s/AKfycbysLu-UEDWHN-p3lKtfjsHEimUX_YFa1alRjUomjqGcSaO9L33VFUK2CZHCXjcwSse2/exec")
 .then(res => res.json())
 .then(data => {
-  console.log("データ取得成功", data);
 
   const rows = data.slice(1);
   const list = document.getElementById("list");
 
-  rows.forEach(row => {
-    const status = row[2];
+  const seen = new Set();
 
-    if(status && (status.includes("空室") || status.includes("退居"))){
+  rows.forEach(row => {
+    const facility = row[0];
+    const room = row[1];
+    const status = (row[2] || "").trim();
+
+    const key = facility + "_" + room;
+
+    if(status.includes("空室") || status.includes("退居")){
+
+      if(seen.has(key)) return;
+      seen.add(key);
+
       list.innerHTML += `
         <div class="card">
-          <div class="title">${row[1]}号室</div>
-          ${row[0]}<br>
-          ${row[3] || ""}<br>
-          ${row[4] || ""}
+          <div class="title">${room}号室</div>
+          <div class="facility">${facility}</div>
+          ${row[3] ? `<div class="ok">受入可：${row[3]}</div>` : ""}
+          ${row[4] ? `<div class="ng">NG：${row[4]}</div>` : ""}
         </div>
       `;
     }
   });
-})
-.catch(err => {
-  document.body.innerHTML += "<p>データ取得エラー</p>";
-  console.error(err);
+
 });
 </script>
 
