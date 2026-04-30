@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>空室一覧</title>
+<style>
+body { font-family: sans-serif; padding: 10px; }
+.card {
+  border: 1px solid #ddd;
+  padding: 12px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+}
+.title { font-size: 18px; font-weight: bold; }
+</style>
+</head>
+<body>
+
+<h2>現在ご案内可能なお部屋</h2>
+<div id="list"></div>
+
+<script>
+fetch("ここにCSV URL")
+.then(res => res.text())
+.then(data => {
+  const rows = data.split("\n").slice(1);
+  const list = document.getElementById("list");
+
+  rows.forEach(row => {
+    const cols = row.split(",");
+    const status = cols[2];
+
+    if(status === "空室" || status === "退去予定"){
+      list.innerHTML += `
+        <div class="card">
+          <div class="title">${cols[1]}号室</div>
+          ${cols[0]}<br>
+          ${cols[3]}<br>
+          ${cols[4]}
+        </div>
+      `;
+    }
+  });
+});
+</script>
+
+</body>
+</html>
