@@ -75,7 +75,20 @@ body {
 .ok { font-size: 12px; }
 .ng { font-size: 12px; color: red; }
 
-/* 相談ボタン（固定） */
+/* カード内ボタン */
+.card-btn {
+  display: block;
+  margin-top: 8px;
+  background: #06c755;
+  color: #fff;
+  padding: 8px;
+  border-radius: 6px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 13px;
+}
+
+/* 固定ボタン */
 .consult-btn {
   position: fixed;
   bottom: 15px;
@@ -108,8 +121,8 @@ body {
 
 <div id="list"></div>
 
-<!-- 相談ボタン -->
-<a href="https://lin.ee/5Dzzdqx" class="consult-btn">
+<!-- 固定相談ボタン -->
+<a href="https://line.me/R/oaMessage/@5Dzzdqx/?%E7%B4%85%E8%90%8C%E4%BC%9A%E3%82%B0%E3%83%AB%E3%83%BC%E3%83%97%E3%81%AE%E7%A9%BA%E5%AE%A4%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6%E7%9B%B8%E8%AB%87%E3%81%97%E3%81%9F%E3%81%84%E3%81%A7%E3%81%99" class="consult-btn">
   入居相談する（LINE）
 </a>
 
@@ -139,6 +152,7 @@ fetch("https://script.google.com/macros/s/AKfycbysLu-UEDWHN-p3lKtfjsHEimUX_YFa1a
       if(!grouped[facility]) grouped[facility] = [];
 
       grouped[facility].push({
+        facility,
         room,
         status,
         ok: row[3],
@@ -164,6 +178,10 @@ fetch("https://script.google.com/macros/s/AKfycbysLu-UEDWHN-p3lKtfjsHEimUX_YFa1a
           </div>
           ${item.ok ? `<div class="ok">受入可：${item.ok}</div>` : ""}
           ${item.ng ? `<div class="ng">NG：${item.ng}</div>` : ""}
+
+          <a href="https://line.me/R/oaMessage/@5Dzzdqx/?${encodeURIComponent(item.facility + 'の' + item.room + '号室について相談したいです')}" class="card-btn">
+            この部屋を相談する
+          </a>
         </div>
       `;
     });
