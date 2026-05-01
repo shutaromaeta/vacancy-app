@@ -55,15 +55,22 @@ body { font-family: sans-serif; margin: 0; background: #f5f5f5; }
 .ng { font-size: 12px; color: red; }
 
 .card-btn {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
   margin-top: 8px;
   background: #06c755;
   color: #fff;
   padding: 8px;
   border-radius: 6px;
-  text-align: center;
   text-decoration: none;
   font-size: 13px;
+}
+
+.line-icon {
+  width: 18px;
+  height: 18px;
 }
 
 .consult-btn {
@@ -78,6 +85,9 @@ body { font-family: sans-serif; margin: 0; background: #f5f5f5; }
   font-size: 14px;
   font-weight: bold;
   text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 </style>
 </head>
@@ -107,7 +117,8 @@ body { font-family: sans-serif; margin: 0; background: #f5f5f5; }
 
 <!-- 固定ボタン -->
 <a href="https://line.me/R/oaMessage/@419summx/?%E7%A9%BA%E5%AE%A4%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6%E7%9B%B8%E8%AB%87%E3%81%97%E3%81%9F%E3%81%84%E3%81%A7%E3%81%99" class="consult-btn">
-  ざっくり相談する（LINE）
+  ざっくり相談する
+  <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/LINE_logo.svg" class="line-icon">
 </a>
 
 <script>
@@ -184,7 +195,8 @@ function render(){
         ${item.ng ? `<div class="ng">NG：${item.ng}</div>` : ""}
 
         <a href="https://line.me/R/oaMessage/@419summx/?${encodeURIComponent(item.facility + 'の' + item.room + '号室について相談したいです')}" class="card-btn">
-          この部屋を相談する（LINE）
+          この部屋を相談する
+          <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/LINE_logo.svg" class="line-icon">
         </a>
       </div>`;
     });
