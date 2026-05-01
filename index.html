@@ -58,6 +58,7 @@ body { font-family: sans-serif; margin: 0; background: #f5f5f5; }
 .ok { font-size: 12px; }
 .ng { font-size: 12px; color: red; }
 
+/* カード内ボタン（緑＝具体相談） */
 .card-btn {
   display: block;
   margin-top: 8px;
@@ -70,18 +71,20 @@ body { font-family: sans-serif; margin: 0; background: #f5f5f5; }
   font-size: 13px;
 }
 
+/* 固定ボタン（青＝ざっくり相談） */
 .consult-btn {
   position: fixed;
   bottom: 15px;
   left: 50%;
   transform: translateX(-50%);
-  background: #06c755;
+  background: #0d47a1;
   color: #fff;
   padding: 14px 20px;
   border-radius: 30px;
   font-size: 14px;
   font-weight: bold;
   text-decoration: none;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
 </style>
 </head>
@@ -103,22 +106,22 @@ body { font-family: sans-serif; margin: 0; background: #f5f5f5; }
   <button onclick="setFilter('')" class="active">すべて</button>
   <button onclick="setFilter('特定')">特定</button>
   <button onclick="setFilter('短期入所')">短期入所</button>
-  <button onclick="setFilter('グループホーム')">グルホ</button>
+  <button onclick="setFilter('グループホーム')">GH</button>
   <button onclick="setFilter('老健')">老健</button>
-  <button onclick="setFilter('ケアハウス')">住宅型</button>
+  <button onclick="setFilter('ケアハウス')">ケアハウス</button>
 </div>
 
 <div id="list"></div>
 
+<!-- 固定相談ボタン -->
 <a href="https://line.me/R/oaMessage/@419summx/?%E7%A9%BA%E5%AE%A4%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6%E7%9B%B8%E8%AB%87%E3%81%97%E3%81%9F%E3%81%84%E3%81%A7%E3%81%99" class="consult-btn">
-  入居相談する（LINE）
+  ざっくり相談する
 </a>
 
 <script>
 let allData = [];
 let currentFilter = "";
 
-// 種別判定
 function getType(name){
   if(name.includes("特定")) return "特定";
   if(name.includes("短期入所")) return "短期入所";
@@ -128,7 +131,6 @@ function getType(name){
   return "その他";
 }
 
-// フィルター切替
 function setFilter(type){
   currentFilter = type;
 
@@ -142,7 +144,6 @@ function setFilter(type){
   render();
 }
 
-// 描画
 function render(){
   const list = document.getElementById("list");
   list.innerHTML = "";
@@ -202,7 +203,6 @@ function render(){
   });
 }
 
-// データ取得
 fetch("https://script.google.com/macros/s/AKfycbysLu-UEDWHN-p3lKtfjsHEimUX_YFa1alRjUomjqGcSaO9L33VFUK2CZHCXjcwSse2/exec")
 .then(res=>res.json())
 .then(data=>{
