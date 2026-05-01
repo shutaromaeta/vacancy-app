@@ -5,38 +5,36 @@
 <title>空室一覧</title>
 
 <style>
-body {
-  font-family: sans-serif;
-  margin: 0;
-  background: #f5f5f5;
-}
+body { font-family: sans-serif; margin: 0; background: #f5f5f5; }
 
-.header {
+/* ヘッダー */
+.header { background: #0d47a1; color: #fff; padding: 12px; }
+.header-inner { display: flex; align-items: center; gap: 8px; }
+.header-title { font-size: 16px; font-weight: bold; }
+.header-sub { font-size: 12px; opacity: 0.9; }
+
+/* フィルター */
+.filter {
+  display: flex;
+  overflow-x: auto;
+  gap: 6px;
+  padding: 8px;
+  background: #fff;
+}
+.filter button {
+  border: none;
+  padding: 6px 10px;
+  border-radius: 20px;
+  background: #e0e0e0;
+  font-size: 12px;
+}
+.filter button.active {
   background: #0d47a1;
   color: #fff;
-  padding: 12px;
 }
 
-.header-inner {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.header-title {
-  font-size: 16px;
-  font-weight: bold;
-}
-
-.header-sub {
-  font-size: 12px;
-  opacity: 0.9;
-}
-
-.facility-block {
-  margin: 14px;
-}
-
+/* 施設 */
+.facility-block { margin: 14px; }
 .facility-title {
   font-size: 14px;
   font-weight: bold;
@@ -46,6 +44,7 @@ body {
   border-radius: 6px;
 }
 
+/* カード */
 .card {
   background: #fff;
   border-radius: 10px;
@@ -53,22 +52,9 @@ body {
   margin-bottom: 8px;
   border: 1px solid #ddd;
 }
-
-.room {
-  font-size: 14px;
-  margin-bottom: 4px;
-}
-
-.status-empty {
-  color: green;
-  font-weight: bold;
-}
-
-.status-leave {
-  color: orange;
-  font-weight: bold;
-}
-
+.room { font-size: 14px; margin-bottom: 4px; }
+.status-empty { color: green; font-weight: bold; }
+.status-leave { color: orange; font-weight: bold; }
 .ok { font-size: 12px; }
 .ng { font-size: 12px; color: red; }
 
@@ -96,7 +82,6 @@ body {
   font-size: 14px;
   font-weight: bold;
   text-decoration: none;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
 </style>
 </head>
@@ -113,28 +98,65 @@ body {
   </div>
 </div>
 
+<!-- フィルター -->
+<div class="filter">
+  <button onclick="setFilter('')" class="active">すべて</button>
+  <button onclick="setFilter('特定')">特定</button>
+  <button onclick="setFilter('短期入所')">短期入所</button>
+  <button onclick="setFilter('グループホーム')">GH</button>
+  <button onclick="setFilter('老健')">老健</button>
+  <button onclick="setFilter('ケアハウス')">ケアハウス</button>
+</div>
+
 <div id="list"></div>
 
-<!-- 固定ボタン -->
-<a href="https://line.me/R/oaMessage/@419summx/?%E7%B4%85%E8%90%8C%E4%BC%9A%E3%82%B0%E3%83%AB%E3%83%BC%E3%83%97%E3%81%AE%E7%A9%BA%E5%AE%A4%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6%E7%9B%B8%E8%AB%87%E3%81%97%E3%81%9F%E3%81%84%E3%81%A7%E3%81%99" class="consult-btn">
+<a href="https://line.me/R/oaMessage/@419summx/?%E7%A9%BA%E5%AE%A4%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6%E7%9B%B8%E8%AB%87%E3%81%97%E3%81%9F%E3%81%84%E3%81%A7%E3%81%99" class="consult-btn">
   入居相談する（LINE）
 </a>
 
 <script>
-fetch("https://script.google.com/macros/s/AKfycbysLu-UEDWHN-p3lKtfjsHEimUX_YFa1alRjUomjqGcSaO9L33VFUK2CZHCXjcwSse2/exec")
-.then(res => res.json())
-.then(data => {
+let allData = [];
+let currentFilter = "";
 
-  const rows = data.slice(1);
+// 種別判定
+function getType(name){
+  if(name.includes("特定")) return "特定";
+  if(name.includes("短期入所")) return "短期入所";
+  if(name.includes("グループホーム")) return "グループホーム";
+  if(name.includes("老健")) return "老健";
+  if(name.includes("ケアハウス")) return "ケアハウス";
+  return "その他";
+}
+
+// フィルター切替
+function setFilter(type){
+  currentFilter = type;
+
+  document.querySelectorAll(".filter button").forEach(btn=>{
+    btn.classList.remove("active");
+    if(btn.textContent.includes(type) || (type==="" && btn.textContent==="すべて")){
+      btn.classList.add("active");
+    }
+  });
+
+  render();
+}
+
+// 描画
+function render(){
   const list = document.getElementById("list");
+  list.innerHTML = "";
 
   const seen = new Set();
   const grouped = {};
 
-  rows.forEach(row => {
+  allData.forEach(row=>{
     const facility = row[0];
     const room = row[1];
     const status = (row[2] || "").trim();
+    const type = getType(facility);
+
+    if(currentFilter && type !== currentFilter) return;
 
     const key = facility + "_" + room;
 
@@ -146,44 +168,46 @@ fetch("https://script.google.com/macros/s/AKfycbysLu-UEDWHN-p3lKtfjsHEimUX_YFa1a
       if(!grouped[facility]) grouped[facility] = [];
 
       grouped[facility].push({
-        facility,
-        room,
-        status,
+        facility, room, status,
         ok: row[3],
         ng: row[4]
       });
     }
   });
 
-  Object.keys(grouped).sort().forEach(facility => {
-
+  Object.keys(grouped).sort().forEach(facility=>{
     let html = `<div class="facility-block">`;
     html += `<div class="facility-title">${facility}</div>`;
 
-    grouped[facility].forEach(item => {
-
+    grouped[facility].forEach(item=>{
       const statusClass = item.status.includes("空室") ? "status-empty" : "status-leave";
 
       html += `
-        <div class="card">
-          <div class="room">
-            ${item.room}号室
-            <span class="${statusClass}">（${item.status}）</span>
-          </div>
-          ${item.ok ? `<div class="ok">受入可：${item.ok}</div>` : ""}
-          ${item.ng ? `<div class="ng">NG：${item.ng}</div>` : ""}
-
-          <a href="https://line.me/R/oaMessage/@419summx/?${encodeURIComponent(item.facility + 'の' + item.room + '号室について相談したいです')}" class="card-btn">
-            この部屋を相談する
-          </a>
+      <div class="card">
+        <div class="room">
+          ${item.room}号室
+          <span class="${statusClass}">（${item.status}）</span>
         </div>
-      `;
+        ${item.ok ? `<div class="ok">受入可：${item.ok}</div>` : ""}
+        ${item.ng ? `<div class="ng">NG：${item.ng}</div>` : ""}
+
+        <a href="https://line.me/R/oaMessage/@419summx/?${encodeURIComponent(item.facility + 'の' + item.room + '号室について相談したいです')}" class="card-btn">
+          この部屋を相談する
+        </a>
+      </div>`;
     });
 
     html += `</div>`;
     list.innerHTML += html;
   });
+}
 
+// データ取得
+fetch("https://script.google.com/macros/s/AKfycbysLu-UEDWHN-p3lKtfjsHEimUX_YFa1alRjUomjqGcSaO9L33VFUK2CZHCXjcwSse2/exec")
+.then(res=>res.json())
+.then(data=>{
+  allData = data.slice(1);
+  render();
 });
 </script>
 
