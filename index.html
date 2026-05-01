@@ -96,12 +96,12 @@ body { font-family: sans-serif; margin: 0; background: #f5f5f5; }
 
 <!-- フィルター -->
 <div class="filter">
-  <button onclick="setFilter('')" class="active">すべて</button>
-  <button onclick="setFilter('特定')">特定</button>
-  <button onclick="setFilter('短期入所')">短期入所</button>
-  <button onclick="setFilter('グループホーム')">グルホ</button>
-  <button onclick="setFilter('老健')">老健</button>
-  <button onclick="setFilter('ケアハウス')">住宅型</button>
+  <button data-type="" onclick="setFilter(this)" class="active">すべて</button>
+  <button data-type="特定" onclick="setFilter(this)">特定</button>
+  <button data-type="短期入所" onclick="setFilter(this)">短期入所</button>
+  <button data-type="グループホーム" onclick="setFilter(this)">グルホ</button>
+  <button data-type="老健" onclick="setFilter(this)">老健</button>
+  <button data-type="ケアハウス" onclick="setFilter(this)">住宅型</button>
 </div>
 
 <div id="list"></div>
@@ -123,15 +123,14 @@ function getType(name){
   return "その他";
 }
 
-function setFilter(type){
-  currentFilter = type;
+function setFilter(btn){
+  currentFilter = btn.dataset.type;
 
-  document.querySelectorAll(".filter button").forEach(btn=>{
-    btn.classList.remove("active");
-    if(btn.textContent.includes(type) || (type==="" && btn.textContent==="すべて")){
-      btn.classList.add("active");
-    }
+  document.querySelectorAll(".filter button").forEach(b=>{
+    b.classList.remove("active");
   });
+
+  btn.classList.add("active");
 
   render();
 }
