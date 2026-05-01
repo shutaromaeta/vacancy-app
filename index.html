@@ -122,7 +122,7 @@ body { font-family: sans-serif; margin: 0; background: #f5f5f5; }
 
 <div class="filter">
   <button data-type="" onclick="setFilter(this)" class="active">すべて</button>
-  <button data-type="特定" onclick="setFilter(this)">特定</button>
+  <button data-type="特定施設" onclick="setFilter(this)">特定施設</button>
   <button data-type="短期入所" onclick="setFilter(this)">短期入所</button>
   <button data-type="グループホーム" onclick="setFilter(this)">グルホ</button>
   <button data-type="老健" onclick="setFilter(this)">老健</button>
@@ -142,7 +142,7 @@ let allData = [];
 let currentFilter = "";
 
 function getType(name){
-  if(name.includes("特定")) return "特定";
+  if(name.includes("特定")) return "特定施設";
   if(name.includes("短期入所")) return "短期入所";
   if(name.includes("グループホーム")) return "グループホーム";
   if(name.includes("老健")) return "老健";
