@@ -89,17 +89,26 @@ body {
   gap:6px;
   padding:8px;
   background:#fff;
+
+  scroll-snap-type: x mandatory;
 }
+
 .filter button {
   border:none;
   padding:6px 12px;
   border-radius:20px;
   background:#e0e0e0;
   font-size:12px;
+
+  white-space: nowrap;        /* ← 改行防止 */
+  scroll-snap-align: start;   /* ← スナップ */
+  flex: 0 0 auto;             /* ← 崩れ防止 */
 }
+
 .filter button.active {
   background:#0d47a1;
   color:#fff;
+  transform: scale(1.05);     /* ← 触感UP */
 }
 
 /* ===== 施設 ===== */
@@ -124,7 +133,7 @@ body {
   font-size:12px;
 }
 
-/* ===== カード（最適化） ===== */
+/* ===== カード ===== */
 .card {
   background:#fff;
   border-radius:12px;
@@ -145,7 +154,6 @@ body {
   box-shadow: 0 1px 3px rgba(0,0,0,0.08);
 }
 
-/* 中身余白調整 */
 .room {
   font-size:14px;
   margin-bottom:6px;
