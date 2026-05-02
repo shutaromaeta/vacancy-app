@@ -7,7 +7,7 @@
 <style>
 body { font-family: sans-serif; margin: 0; background: #f5f5f5; }
 
-/* ===== ヘッダー（進化版） ===== */
+/* ===== ヘッダー ===== */
 .header {
   position: relative;
   color: #fff;
@@ -15,10 +15,9 @@ body { font-family: sans-serif; margin: 0; background: #f5f5f5; }
   background-image: url("https://images.unsplash.com/photo-1581578731548-c64695cc6952");
   background-size: cover;
   background-position: center;
-  overflow: hidden;
 }
 
-/* グラデーションオーバーレイ */
+/* オーバーレイ */
 .header::before {
   content: "";
   position: absolute;
@@ -29,7 +28,7 @@ body { font-family: sans-serif; margin: 0; background: #f5f5f5; }
   );
 }
 
-/* 少しだけ立体感 */
+/* 光のニュアンス */
 .header::after {
   content: "";
   position: absolute;
@@ -53,21 +52,33 @@ body { font-family: sans-serif; margin: 0; background: #f5f5f5; }
   filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
 }
 
-.header-title {
-  font-size: 17px;
-  font-weight: bold;
-  letter-spacing: 0.5px;
+/* テキスト構造 */
+.header-text {
+  display: flex;
+  flex-direction: column;
 }
 
-.header-sub {
+.group-name {
+  font-size: 11px;
+  opacity: 0.8;
+  letter-spacing: 1px;
+}
+
+.main-title {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 2px 0;
+}
+
+.sub-title {
   font-size: 12px;
   opacity: 0.9;
 }
 
 .update {
   font-size: 11px;
-  opacity: 0.85;
-  margin-top: 3px;
+  opacity: 0.7;
+  margin-top: 4px;
 }
 
 /* ===== フィルター ===== */
@@ -187,9 +198,11 @@ body { font-family: sans-serif; margin: 0; background: #f5f5f5; }
 <div class="header">
   <div class="header-inner">
     <img src="https://raw.githubusercontent.com/shutaromaeta/vacancy-app/main/logomark%20(1).png" class="logo">
-    <div>
-      <div class="header-title">紅萌会グループ 空室情報</div>
-      <div class="header-sub">現在ご案内可能なお部屋</div>
+
+    <div class="header-text">
+      <div class="group-name">紅萌会グループ</div>
+      <div class="main-title">空室情報</div>
+      <div class="sub-title">現在ご案内可能なお部屋</div>
       <div class="update" id="update">最終更新：取得中...</div>
     </div>
   </div>
