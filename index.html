@@ -5,7 +5,11 @@
 <title>ご案内可能なお部屋</title>
 
 <style>
-body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif; background:#f5f5f5; }
+body {
+  margin:0;
+  font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
+  background:#f5f5f5;
+}
 
 /* ===== ヘッダー ===== */
 .header {
@@ -17,20 +21,21 @@ body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",A
   background-position: center;
 }
 
-/* グラデーション */
 .header::before {
   content:"";
   position:absolute;
   inset:0;
-  background:linear-gradient(rgba(13,71,161,0.88),rgba(13,71,161,0.6));
+  background:linear-gradient(
+    rgba(13,71,161,0.35),
+    rgba(13,71,161,0.15)
+  );
 }
 
-/* 光のニュアンス */
 .header::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(
     to bottom,
     rgba(255,255,255,0.2),
     rgba(255,255,255,0) 40%
@@ -44,13 +49,11 @@ body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",A
   gap:12px;
 }
 
-/* ロゴ強化 */
 .logo {
   height:38px;
   filter: drop-shadow(0 2px 6px rgba(0,0,0,0.35));
 }
 
-/* テキスト構造 */
 .header-text {
   display:flex;
   flex-direction:column;
@@ -62,21 +65,17 @@ body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",A
   letter-spacing:1px;
 }
 
-/* 主役 */
 .main-title {
   font-size:22px;
   font-weight:700;
   margin-top:2px;
 }
 
-/* サブ */
 .sub-title {
   font-size:13px;
   margin-top:4px;
-  opacity:0.95;
 }
 
-/* 更新 */
 .update {
   font-size:11px;
   margin-top:6px;
@@ -125,22 +124,46 @@ body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",A
   font-size:12px;
 }
 
-/* ===== カード ===== */
+/* ===== カード（最適化） ===== */
 .card {
   background:#fff;
-  border-radius:10px;
-  padding:12px;
+  border-radius:12px;
+  padding:14px 14px 12px;
   margin-top:10px;
-  border:1px solid #ddd;
+
+  border:1px solid rgba(0,0,0,0.05);
+
+  box-shadow:
+    0 2px 6px rgba(0,0,0,0.06),
+    0 8px 18px rgba(0,0,0,0.04);
+
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
-.room { font-size:14px; }
+.card:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+
+/* 中身余白調整 */
+.room {
+  font-size:14px;
+  margin-bottom:6px;
+}
 
 .status-empty { color:#2e7d32; font-weight:bold; }
 .status-leave { color:#ef6c00; font-weight:bold; }
 
-.ok { font-size:12px; }
-.ng { font-size:12px; color:#c62828; }
+.ok {
+  font-size:12px;
+  margin-top:4px;
+}
+
+.ng {
+  font-size:12px;
+  margin-top:2px;
+  color:#c62828;
+}
 
 /* ===== ボタン ===== */
 .card-btn {
@@ -148,14 +171,16 @@ body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",A
   justify-content:center;
   align-items:center;
   gap:8px;
-  margin-top:10px;
+  margin-top:12px;
   background:#06c755;
   color:#fff;
-  padding:10px;
-  border-radius:8px;
+  padding:11px;
+  border-radius:10px;
   text-decoration:none;
   font-size:13px;
   font-weight:bold;
+
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
 }
 
 .line-icon {
@@ -199,7 +224,6 @@ body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",A
 
 <body>
 
-<!-- ===== ヘッダー ===== -->
 <div class="header">
   <div class="header-inner">
     <img src="https://raw.githubusercontent.com/shutaromaeta/vacancy-app/main/logomark.png" class="logo">
@@ -212,7 +236,6 @@ body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",A
   </div>
 </div>
 
-<!-- ===== フィルター ===== -->
 <div class="filter">
   <button data-type="" onclick="setFilter(this)" class="active">すべて</button>
   <button data-type="特定施設" onclick="setFilter(this)">特定施設</button>
@@ -225,7 +248,6 @@ body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",A
 
 <div id="list"></div>
 
-<!-- ===== 固定相談ボタン ===== -->
 <a href="https://line.me/R/oaMessage/@419summx/?%E7%A9%BA%E5%AE%A4%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6%E7%9B%B8%E8%AB%87%E3%81%97%E3%81%9F%E3%81%84%E3%81%A7%E3%81%99" class="consult-btn">
   ざっくり相談する
   <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/LINE_logo.svg" class="line-icon">
