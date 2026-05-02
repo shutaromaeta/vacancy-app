@@ -7,12 +7,70 @@
 <style>
 body { font-family: sans-serif; margin: 0; background: #f5f5f5; }
 
-.header { background: #0d47a1; color: #fff; padding: 12px; }
-.header-inner { display: flex; align-items: center; gap: 10px; }
-.header-title { font-size: 16px; font-weight: bold; }
-.header-sub { font-size: 12px; opacity: 0.9; }
-.update { font-size: 11px; margin-top: 4px; opacity: 0.8; }
+/* ===== ヘッダー（進化版） ===== */
+.header {
+  position: relative;
+  color: #fff;
+  padding: 18px 14px;
+  background-image: url("https://images.unsplash.com/photo-1581578731548-c64695cc6952");
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+}
 
+/* グラデーションオーバーレイ */
+.header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    rgba(13,71,161,0.85),
+    rgba(13,71,161,0.65)
+  );
+}
+
+/* 少しだけ立体感 */
+.header::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at top left,
+    rgba(255,255,255,0.15),
+    transparent 60%
+  );
+}
+
+.header-inner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo {
+  height: 34px;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+}
+
+.header-title {
+  font-size: 17px;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+}
+
+.header-sub {
+  font-size: 12px;
+  opacity: 0.9;
+}
+
+.update {
+  font-size: 11px;
+  opacity: 0.85;
+  margin-top: 3px;
+}
+
+/* ===== フィルター ===== */
 .filter {
   display: flex;
   overflow-x: auto;
@@ -33,6 +91,7 @@ body { font-family: sans-serif; margin: 0; background: #f5f5f5; }
   color: #fff;
 }
 
+/* ===== 施設 ===== */
 .facility-block { margin: 18px 14px; }
 
 .facility-title {
@@ -56,6 +115,7 @@ body { font-family: sans-serif; margin: 0; background: #f5f5f5; }
   border-radius: 20px;
 }
 
+/* ===== カード ===== */
 .card {
   background: #fff;
   border-radius: 10px;
@@ -69,6 +129,7 @@ body { font-family: sans-serif; margin: 0; background: #f5f5f5; }
 .ok { font-size: 12px; }
 .ng { font-size: 12px; color: #c62828; }
 
+/* ===== ボタン ===== */
 .card-btn {
   display: flex;
   align-items: center;
@@ -92,6 +153,7 @@ body { font-family: sans-serif; margin: 0; background: #f5f5f5; }
   padding: 3px;
 }
 
+/* ===== 固定ボタン ===== */
 .consult-btn {
   position: fixed;
   bottom: 15px;
@@ -124,7 +186,7 @@ body { font-family: sans-serif; margin: 0; background: #f5f5f5; }
 
 <div class="header">
   <div class="header-inner">
-    <img src="https://raw.githubusercontent.com/shutaromaeta/vacancy-app/main/logomark%20(1).png" style="height:28px;">
+    <img src="https://raw.githubusercontent.com/shutaromaeta/vacancy-app/main/logomark%20(1).png" class="logo">
     <div>
       <div class="header-title">紅萌会グループ 空室情報</div>
       <div class="header-sub">現在ご案内可能なお部屋</div>
@@ -242,7 +304,6 @@ fetch("https://script.google.com/macros/s/AKfycbysLu-UEDWHN-p3lKtfjsHEimUX_YFa1a
 .then(data=>{
   allData = data.slice(1);
 
-  // ★最終更新日（今の時刻）
   const now = new Date();
   const formatted = now.getFullYear() + "/" +
     (now.getMonth()+1).toString().padStart(2,"0") + "/" +
