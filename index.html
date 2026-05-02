@@ -35,6 +35,9 @@ body { font-family: sans-serif; margin: 0; background: #f5f5f5; }
 .facility-block { margin: 18px 14px; }
 
 .facility-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   font-size: 16px;
   font-weight: bold;
   margin-bottom: 10px;
@@ -42,6 +45,14 @@ body { font-family: sans-serif; margin: 0; background: #f5f5f5; }
   background: #e3f2fd;
   border-left: 5px solid #0d47a1;
   border-radius: 6px;
+}
+
+.count-badge {
+  background: #0d47a1;
+  color: #fff;
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 20px;
 }
 
 .card {
@@ -153,13 +164,8 @@ function getType(name){
 
 function setFilter(btn){
   currentFilter = btn.dataset.type;
-
-  document.querySelectorAll(".filter button").forEach(b=>{
-    b.classList.remove("active");
-  });
-
+  document.querySelectorAll(".filter button").forEach(b=>b.classList.remove("active"));
   btn.classList.add("active");
-
   render();
 }
 
@@ -195,8 +201,15 @@ function render(){
   });
 
   Object.keys(grouped).sort().forEach(facility=>{
+    const count = grouped[facility].length;
+
     let html = `<div class="facility-block">`;
-    html += `<div class="facility-title">${facility}</div>`;
+    html += `
+      <div class="facility-title">
+        <span>${facility}</span>
+        <span class="count-badge">${count}室</span>
+      </div>
+    `;
 
     grouped[facility].forEach(item=>{
       const statusClass = item.status.includes("空室") ? "status-empty" : "status-leave";
