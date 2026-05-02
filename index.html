@@ -1,18 +1,10 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>空室一覧</title>
-
 <style>
-body { font-family: sans-serif; margin: 0; background: #f5f5f5; }
-
-/* ===== ヘッダー ===== */
 .header {
   position: relative;
   color: #fff;
-  padding: 18px 14px;
-  background-image: url("https://images.unsplash.com/photo-1581578731548-c64695cc6952");
+  padding: 24px 16px;
+  text-align: center;
+  background-image: url("https://images.unsplash.com/photo-1505691938895-1758d7feb511");
   background-size: cover;
   background-position: center;
 }
@@ -23,312 +15,51 @@ body { font-family: sans-serif; margin: 0; background: #f5f5f5; }
   position: absolute;
   inset: 0;
   background: linear-gradient(
-    rgba(13,71,161,0.85),
-    rgba(13,71,161,0.65)
-  );
-}
-
-/* 光のニュアンス */
-.header::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(
-    circle at top left,
-    rgba(255,255,255,0.15),
-    transparent 60%
+    rgba(13,71,161,0.8),
+    rgba(13,71,161,0.6)
   );
 }
 
 .header-inner {
   position: relative;
-  display: flex;
-  align-items: center;
-  gap: 12px;
 }
 
 .logo {
-  height: 34px;
-  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+  height: 40px;
+  margin-bottom: 8px;
 }
 
-/* テキスト構造 */
-.header-text {
-  display: flex;
-  flex-direction: column;
-}
-
+/* テキスト */
 .group-name {
-  font-size: 11px;
-  opacity: 0.8;
-  letter-spacing: 1px;
-}
-
-.main-title {
-  font-size: 20px;
-  font-weight: bold;
-  margin: 2px 0;
-}
-
-.sub-title {
   font-size: 12px;
   opacity: 0.9;
 }
 
+.main-title {
+  font-size: 22px;
+  font-weight: bold;
+  margin: 4px 0;
+}
+
+.sub-title {
+  font-size: 13px;
+  opacity: 0.95;
+}
+
 .update {
   font-size: 11px;
-  opacity: 0.7;
-  margin-top: 4px;
+  opacity: 0.8;
+  margin-top: 6px;
 }
-
-/* ===== フィルター ===== */
-.filter {
-  display: flex;
-  overflow-x: auto;
-  gap: 6px;
-  padding: 8px;
-  background: #fff;
-}
-.filter button {
-  border: none;
-  padding: 6px 12px;
-  border-radius: 20px;
-  background: #e0e0e0;
-  font-size: 12px;
-  white-space: nowrap;
-}
-.filter button.active {
-  background: #0d47a1;
-  color: #fff;
-}
-
-/* ===== 施設 ===== */
-.facility-block { margin: 18px 14px; }
-
-.facility-title {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 16px;
-  font-weight: bold;
-  margin-bottom: 10px;
-  padding: 10px 12px;
-  background: #e3f2fd;
-  border-left: 5px solid #0d47a1;
-  border-radius: 6px;
-}
-
-.count-badge {
-  background: #0d47a1;
-  color: #fff;
-  font-size: 12px;
-  padding: 4px 8px;
-  border-radius: 20px;
-}
-
-/* ===== カード ===== */
-.card {
-  background: #fff;
-  border-radius: 10px;
-  padding: 12px;
-  margin-bottom: 10px;
-  border: 1px solid #ddd;
-}
-.room { font-size: 14px; margin-bottom: 4px; }
-.status-empty { color: #2e7d32; font-weight: bold; }
-.status-leave { color: #ef6c00; font-weight: bold; }
-.ok { font-size: 12px; }
-.ng { font-size: 12px; color: #c62828; }
-
-/* ===== ボタン ===== */
-.card-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  margin-top: 10px;
-  background: #06c755;
-  color: #fff;
-  padding: 10px;
-  border-radius: 8px;
-  text-decoration: none;
-  font-size: 13px;
-  font-weight: bold;
-}
-
-.line-icon {
-  width: 26px;
-  height: 26px;
-  background: #fff;
-  border-radius: 50%;
-  padding: 3px;
-}
-
-/* ===== 固定ボタン ===== */
-.consult-btn {
-  position: fixed;
-  bottom: 15px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #0d47a1;
-  color: #fff;
-  padding: 14px 24px;
-  border-radius: 30px;
-  font-size: 15px;
-  font-weight: bold;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-  white-space: nowrap;
-}
-
-.consult-btn .line-icon {
-  width: 28px;
-  height: 28px;
-}
-
-#list { padding-bottom: 80px; }
 </style>
-</head>
-
-<body>
 
 <div class="header">
   <div class="header-inner">
     <img src="https://raw.githubusercontent.com/shutaromaeta/vacancy-app/main/logomark%20(1).png" class="logo">
 
-    <div class="header-text">
-      <div class="group-name">紅萌会グループ</div>
-      <div class="main-title">空室情報</div>
-      <div class="sub-title">現在ご案内可能なお部屋</div>
-      <div class="update" id="update">最終更新：取得中...</div>
-    </div>
+    <div class="group-name">紅萌会グループ</div>
+    <div class="main-title">空室情報</div>
+    <div class="sub-title">現在ご案内可能なお部屋</div>
+    <div class="update" id="update">最終更新：取得中...</div>
   </div>
 </div>
-
-<div class="filter">
-  <button data-type="" onclick="setFilter(this)" class="active">すべて</button>
-  <button data-type="特定施設" onclick="setFilter(this)">特定施設</button>
-  <button data-type="短期入所" onclick="setFilter(this)">短期入所</button>
-  <button data-type="グループホーム" onclick="setFilter(this)">グルホ</button>
-  <button data-type="老健" onclick="setFilter(this)">老健</button>
-  <button data-type="ケアハウス" onclick="setFilter(this)">住宅型</button>
-  <button data-type="特養" onclick="setFilter(this)">特養</button>
-</div>
-
-<div id="list"></div>
-
-<a href="https://line.me/R/oaMessage/@419summx/?%E7%A9%BA%E5%AE%A4%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6%E7%9B%B8%E8%AB%87%E3%81%97%E3%81%9F%E3%81%84%E3%81%A7%E3%81%99" class="consult-btn">
-  ざっくり相談する
-  <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/LINE_logo.svg" class="line-icon">
-</a>
-
-<script>
-let allData = [];
-let currentFilter = "";
-
-function getType(name){
-  if(name.includes("特定")) return "特定施設";
-  if(name.includes("短期入所")) return "短期入所";
-  if(name.includes("グループホーム")) return "グループホーム";
-  if(name.includes("老健")) return "老健";
-  if(name.includes("ケアハウス")) return "ケアハウス";
-  if(name.includes("特養") || name.includes("特別養護")) return "特養";
-  return "その他";
-}
-
-function setFilter(btn){
-  currentFilter = btn.dataset.type;
-  document.querySelectorAll(".filter button").forEach(b=>b.classList.remove("active"));
-  btn.classList.add("active");
-  render();
-}
-
-function render(){
-  const list = document.getElementById("list");
-  list.innerHTML = "";
-
-  const seen = new Set();
-  const grouped = {};
-
-  allData.forEach(row=>{
-    const facility = row[0];
-    const room = row[1];
-    const status = (row[2] || "").trim();
-    const type = getType(facility);
-
-    if(currentFilter && type !== currentFilter) return;
-
-    const key = facility + "_" + room;
-
-    if(status.includes("空室") || status.includes("退居")){
-      if(seen.has(key)) return;
-      seen.add(key);
-
-      if(!grouped[facility]) grouped[facility] = [];
-
-      grouped[facility].push({
-        facility, room, status,
-        ok: row[3],
-        ng: row[4]
-      });
-    }
-  });
-
-  Object.keys(grouped).sort().forEach(facility=>{
-    const count = grouped[facility].length;
-
-    let html = `<div class="facility-block">`;
-    html += `
-      <div class="facility-title">
-        <span>${facility}</span>
-        <span class="count-badge">${count}室</span>
-      </div>
-    `;
-
-    grouped[facility].forEach(item=>{
-      const statusClass = item.status.includes("空室") ? "status-empty" : "status-leave";
-
-      html += `
-      <div class="card">
-        <div class="room">
-          ${item.room}号室
-          <span class="${statusClass}">（${item.status}）</span>
-        </div>
-        ${item.ok ? `<div class="ok">受入可：${item.ok}</div>` : ""}
-        ${item.ng ? `<div class="ng">NG：${item.ng}</div>` : ""}
-
-        <a href="https://line.me/R/oaMessage/@419summx/?${encodeURIComponent(item.facility + 'の' + item.room + '号室について相談したいです')}" class="card-btn">
-          この部屋を相談する
-          <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/LINE_logo.svg" class="line-icon">
-        </a>
-      </div>`;
-    });
-
-    html += `</div>`;
-    list.innerHTML += html;
-  });
-}
-
-fetch("https://script.google.com/macros/s/AKfycbysLu-UEDWHN-p3lKtfjsHEimUX_YFa1alRjUomjqGcSaO9L33VFUK2CZHCXjcwSse2/exec")
-.then(res=>res.json())
-.then(data=>{
-  allData = data.slice(1);
-
-  const now = new Date();
-  const formatted = now.getFullYear() + "/" +
-    (now.getMonth()+1).toString().padStart(2,"0") + "/" +
-    now.getDate().toString().padStart(2,"0") + " " +
-    now.getHours().toString().padStart(2,"0") + ":" +
-    now.getMinutes().toString().padStart(2,"0");
-
-  document.getElementById("update").textContent = "最終更新：" + formatted;
-
-  render();
-});
-</script>
-
-</body>
-</html>
