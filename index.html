@@ -11,6 +11,7 @@ body { font-family: sans-serif; margin: 0; background: #f5f5f5; }
 .header-inner { display: flex; align-items: center; gap: 10px; }
 .header-title { font-size: 16px; font-weight: bold; }
 .header-sub { font-size: 12px; opacity: 0.9; }
+.update { font-size: 11px; margin-top: 4px; opacity: 0.8; }
 
 .filter {
   display: flex;
@@ -127,6 +128,7 @@ body { font-family: sans-serif; margin: 0; background: #f5f5f5; }
     <div>
       <div class="header-title">紅萌会グループ 空室情報</div>
       <div class="header-sub">現在ご案内可能なお部屋</div>
+      <div class="update" id="update">最終更新：取得中...</div>
     </div>
   </div>
 </div>
@@ -239,6 +241,17 @@ fetch("https://script.google.com/macros/s/AKfycbysLu-UEDWHN-p3lKtfjsHEimUX_YFa1a
 .then(res=>res.json())
 .then(data=>{
   allData = data.slice(1);
+
+  // ★最終更新日（今の時刻）
+  const now = new Date();
+  const formatted = now.getFullYear() + "/" +
+    (now.getMonth()+1).toString().padStart(2,"0") + "/" +
+    now.getDate().toString().padStart(2,"0") + " " +
+    now.getHours().toString().padStart(2,"0") + ":" +
+    now.getMinutes().toString().padStart(2,"0");
+
+  document.getElementById("update").textContent = "最終更新：" + formatted;
+
   render();
 });
 </script>
