@@ -89,7 +89,6 @@ body {
   gap:6px;
   padding:8px;
   background:#fff;
-
   scroll-snap-type: x mandatory;
 }
 
@@ -99,20 +98,21 @@ body {
   border-radius:20px;
   background:#e0e0e0;
   font-size:12px;
-
-  white-space: nowrap;        /* ← 改行防止 */
-  scroll-snap-align: start;   /* ← スナップ */
-  flex: 0 0 auto;             /* ← 崩れ防止 */
+  white-space: nowrap;
+  scroll-snap-align: start;
+  flex: 0 0 auto;
 }
 
 .filter button.active {
   background:#0d47a1;
   color:#fff;
-  transform: scale(1.05);     /* ← 触感UP */
+  transform: scale(1.05);
 }
 
 /* ===== 施設 ===== */
-.facility-block { margin:18px 14px; }
+.facility-block {
+  margin:18px 14px;
+}
 
 .facility-title {
   display:flex;
@@ -159,8 +159,15 @@ body {
   margin-bottom:6px;
 }
 
-.status-empty { color:#2e7d32; font-weight:bold; }
-.status-leave { color:#ef6c00; font-weight:bold; }
+.status-empty {
+  color:#2e7d32;
+  font-weight:bold;
+}
+
+.status-leave {
+  color:#ef6c00;
+  font-weight:bold;
+}
 
 .ok {
   font-size:12px;
@@ -218,14 +225,25 @@ body {
   white-space:nowrap;
 }
 
-.consult-btn .line-icon { width:26px; height:26px; }
+.consult-btn .line-icon {
+  width:26px;
+  height:26px;
+}
 
-#list { padding-bottom:80px; }
+#list {
+  padding-bottom:80px;
+}
 
 /* ===== スマホ調整 ===== */
 @media (max-width:480px){
-  .main-title { font-size:20px; }
-  .logo { height:34px; }
+
+  .main-title {
+    font-size:20px;
+  }
+
+  .logo {
+    height:34px;
+  }
 }
 </style>
 </head>
@@ -234,65 +252,162 @@ body {
 
 <div class="header">
   <div class="header-inner">
-    <img src="https://raw.githubusercontent.com/shutaromaeta/vacancy-app/main/logomark.png" class="logo">
+
+    <img
+      src="https://raw.githubusercontent.com/shutaromaeta/vacancy-app/main/logomark.png"
+      class="logo"
+    >
+
     <div class="header-text">
       <div class="group-name">紅萌会グループ</div>
-      <div class="main-title">ご案内可能なお部屋</div>
-      <div class="sub-title">現在ご案内できるお部屋を掲載しています</div>
-      <div class="update" id="update">最終更新：取得中...</div>
+
+      <div class="main-title">
+        ご案内可能なお部屋
+      </div>
+
+      <div class="sub-title">
+        現在ご案内できるお部屋を掲載しています
+      </div>
+
+      <div class="update" id="update">
+        最終更新：取得中...
+      </div>
     </div>
+
   </div>
 </div>
 
 <div class="filter">
-  <button data-type="" onclick="setFilter(this)" class="active">すべて</button>
-  <button data-type="特定施設" onclick="setFilter(this)">特定施設</button>
-  <button data-type="短期入所" onclick="setFilter(this)">短期入所</button>
-  <button data-type="グループホーム" onclick="setFilter(this)">グルホ</button>
-  <button data-type="老健" onclick="setFilter(this)">老健</button>
-  <button data-type="ケアハウス" onclick="setFilter(this)">住宅型</button>
-  <button data-type="特養" onclick="setFilter(this)">特養</button>
+
+  <button
+    data-type=""
+    onclick="setFilter(this)"
+    class="active"
+  >
+    すべて
+  </button>
+
+  <button
+    data-type="特定施設"
+    onclick="setFilter(this)"
+  >
+    特定施設
+  </button>
+
+  <button
+    data-type="短期入所"
+    onclick="setFilter(this)"
+  >
+    短期入所
+  </button>
+
+  <button
+    data-type="グループホーム"
+    onclick="setFilter(this)"
+  >
+    グルホ
+  </button>
+
+  <button
+    data-type="老健"
+    onclick="setFilter(this)"
+  >
+    老健
+  </button>
+
+  <button
+    data-type="ケアハウス"
+    onclick="setFilter(this)"
+  >
+    住宅型
+  </button>
+
+  <button
+    data-type="特養"
+    onclick="setFilter(this)"
+  >
+    特養
+  </button>
+
 </div>
 
 <div id="list"></div>
 
-<a href="https://line.me/R/oaMessage/@419summx/?%E7%A9%BA%E5%AE%A4%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6%E7%9B%B8%E8%AB%87%E3%81%97%E3%81%9F%E3%81%84%E3%81%A7%E3%81%99" class="consult-btn">
+<!-- ===== 固定相談ボタン ===== -->
+
+<a
+  href="https://line.me/R/oaMessage/@419summx/?%E3%80%90%E5%85%A5%E5%B1%85%E7%9B%B8%E8%AB%87%E3%80%91"
+  class="consult-btn"
+>
   ざっくり相談する
-  <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/LINE_logo.svg" class="line-icon">
+
+  <img
+    src="https://upload.wikimedia.org/wikipedia/commons/4/41/LINE_logo.svg"
+    class="line-icon"
+  >
 </a>
 
 <script>
+
 let allData = [];
+
 let currentFilter = "";
 
+/* ===== 施設タイプ判定 ===== */
+
 function getType(name){
+
   if(name.includes("特定")) return "特定施設";
+
   if(name.includes("短期入所")) return "短期入所";
+
   if(name.includes("グループホーム")) return "グループホーム";
+
   if(name.includes("老健")) return "老健";
+
   if(name.includes("ケアハウス")) return "ケアハウス";
-  if(name.includes("特養") || name.includes("特別養護")) return "特養";
+
+  if(name.includes("特養") || name.includes("特別養護"))
+    return "特養";
+
   return "その他";
 }
 
+/* ===== フィルター ===== */
+
 function setFilter(btn){
+
   currentFilter = btn.dataset.type;
-  document.querySelectorAll(".filter button").forEach(b=>b.classList.remove("active"));
+
+  document
+    .querySelectorAll(".filter button")
+    .forEach(b=>b.classList.remove("active"));
+
   btn.classList.add("active");
+
   render();
 }
 
+/* ===== 描画 ===== */
+
 function render(){
+
   const list = document.getElementById("list");
+
   list.innerHTML = "";
 
   const seen = new Set();
+
   const grouped = {};
 
   allData.forEach(row=>{
+
     const facility = row[0];
+
     const room = row[1];
+
     const status = (row[2] || "").trim();
+
     const type = getType(facility);
 
     if(currentFilter && type !== currentFilter) return;
@@ -300,70 +415,150 @@ function render(){
     const key = facility + "_" + room;
 
     if(status.includes("空室") || status.includes("退居")){
+
       if(seen.has(key)) return;
+
       seen.add(key);
 
-      if(!grouped[facility]) grouped[facility] = [];
+      if(!grouped[facility]){
+        grouped[facility] = [];
+      }
 
       grouped[facility].push({
-        facility, room, status,
+        facility,
+        room,
+        status,
         ok: row[3],
         ng: row[4]
       });
     }
   });
 
-  Object.keys(grouped).sort().forEach(facility=>{
-    const count = grouped[facility].length;
+  Object.keys(grouped)
+    .sort()
+    .forEach(facility=>{
 
-    let html = `<div class="facility-block">`;
-    html += `
-      <div class="facility-title">
-        <span>${facility}</span>
-        <span class="count-badge">${count}室</span>
-      </div>
-    `;
+      const count = grouped[facility].length;
 
-    grouped[facility].forEach(item=>{
-      const statusClass = item.status.includes("空室") ? "status-empty" : "status-leave";
+      let html = `
+        <div class="facility-block">
+      `;
 
       html += `
-      <div class="card">
-        <div class="room">
-          ${item.room}号室
-          <span class="${statusClass}">（${item.status}）</span>
+        <div class="facility-title">
+
+          <span>${facility}</span>
+
+          <span class="count-badge">
+            ${count}室
+          </span>
+
         </div>
-        ${item.ok ? `<div class="ok">受入可：${item.ok}</div>` : ""}
-        ${item.ng ? `<div class="ng">NG：${item.ng}</div>` : ""}
+      `;
 
-        <a href="https://line.me/R/oaMessage/@419summx/?${encodeURIComponent(item.facility + 'の' + item.room + '号室について相談したいです')}" class="card-btn">
-          この部屋を相談する
-          <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/LINE_logo.svg" class="line-icon">
-        </a>
-      </div>`;
+      grouped[facility].forEach(item=>{
+
+        const statusClass =
+          item.status.includes("空室")
+          ? "status-empty"
+          : "status-leave";
+
+        const message =
+          "【空室相談】" +
+          item.facility +
+          " " +
+          item.room +
+          "号室";
+
+        html += `
+        <div class="card">
+
+          <div class="room">
+
+            ${item.room}号室
+
+            <span class="${statusClass}">
+              （${item.status}）
+            </span>
+
+          </div>
+
+          ${
+            item.ok
+            ? `<div class="ok">受入可：${item.ok}</div>`
+            : ""
+          }
+
+          ${
+            item.ng
+            ? `<div class="ng">NG：${item.ng}</div>`
+            : ""
+          }
+
+          <a
+            href="https://line.me/R/oaMessage/@419summx/?${encodeURIComponent(message)}"
+            class="card-btn"
+          >
+
+            この部屋を相談する
+
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/4/41/LINE_logo.svg"
+              class="line-icon"
+            >
+
+          </a>
+
+        </div>
+        `;
+      });
+
+      html += `</div>`;
+
+      list.innerHTML += html;
     });
-
-    html += `</div>`;
-    list.innerHTML += html;
-  });
 }
 
-fetch("https://script.google.com/macros/s/AKfycbysLu-UEDWHN-p3lKtfjsHEimUX_YFa1alRjUomjqGcSaO9L33VFUK2CZHCXjcwSse2/exec")
+/* ===== データ取得 ===== */
+
+fetch(
+  "https://script.google.com/macros/s/AKfycbysLu-UEDWHN-p3lKtfjsHEimUX_YFa1alRjUomjqGcSaO9L33VFUK2CZHCXjcwSse2/exec"
+)
+
 .then(res=>res.json())
+
 .then(data=>{
+
   allData = data.slice(1);
 
   const now = new Date();
-  const formatted = now.getFullYear() + "/" +
-    (now.getMonth()+1).toString().padStart(2,"0") + "/" +
-    now.getDate().toString().padStart(2,"0") + " " +
-    now.getHours().toString().padStart(2,"0") + ":" +
-    now.getMinutes().toString().padStart(2,"0");
 
-  document.getElementById("update").textContent = "最終更新：" + formatted;
+  const formatted =
+
+    now.getFullYear() + "/" +
+
+    (now.getMonth()+1)
+      .toString()
+      .padStart(2,"0") + "/" +
+
+    now.getDate()
+      .toString()
+      .padStart(2,"0") + " " +
+
+    now.getHours()
+      .toString()
+      .padStart(2,"0") + ":" +
+
+    now.getMinutes()
+      .toString()
+      .padStart(2,"0");
+
+  document.getElementById("update").textContent =
+    "最終更新：" + formatted;
 
   render();
 });
+
 </script>
 
 </body>
